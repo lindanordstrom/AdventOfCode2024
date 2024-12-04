@@ -4,20 +4,15 @@ internal static class Program
 {
     private static string[] TestInput => 
         """
-        7 6 4 2 1
-        1 2 7 8 9
-        9 7 6 2 1
-        1 3 2 4 5
-        8 6 4 4 1
-        1 3 6 7 9
+        xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
         """
             .Split("\n");
 
-    private static string[] _realInput = InputLoader.Load(2, separator: "\n");
+    private static string[] _realInput = InputLoader.Load(3, separator: "\n");
 
     private static void Main(string[] args)
     {
-        Day2.Part1(_realInput);
-        Day2.Part2(_realInput);
+        Day3.Part1(TestInput); 
+        Day3.Part2(_realInput); 
     }
 }
