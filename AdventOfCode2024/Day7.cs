@@ -6,6 +6,16 @@ public static class Day7
 {
     public static void Part1(string[] input)
     {
+        Console.WriteLine(CalculateSum(input));
+    }
+    
+    public static void Part2(string[] input)
+    {
+        Console.WriteLine(CalculateSum(input));
+    }
+    
+    private static BigInteger CalculateSum(string[] input)
+    {
         BigInteger sum = 0;
         foreach (var line in input)
         {
@@ -13,13 +23,13 @@ public static class Day7
             var testValue = BigInteger.Parse(parts[0]);
             var numbers = parts[1].Split(" ").Select(BigInteger.Parse).ToList();
 
-            if (CheckIfPossible(numbers.ToArray(), testValue))
+            if (CheckIfPossible(numbers.ToArray(), testValue, true))
                 sum += testValue;
         }
-        Console.WriteLine(sum);
+        return sum;
     }
     
-    private static bool CheckIfPossible(BigInteger[] numbers, BigInteger testValue)
+    private static bool CheckIfPossible(BigInteger[] numbers, BigInteger testValue, bool useConcatenation = false)
     {
         if (numbers.Length == 1)
             return numbers[0] == testValue;
@@ -34,12 +44,17 @@ public static class Day7
         addedNumbers.AddRange(numbers.Skip(2));
         var multipliedNumbers = new List<BigInteger> { numbers[0] * numbers[1] } ;
         multipliedNumbers.AddRange(numbers.Skip(2));
-        return CheckIfPossible(addedNumbers.ToArray(), testValue) || CheckIfPossible(multipliedNumbers.ToArray(), testValue);
+        
+        var concatenatedNumbersPossible = false;
+        if (useConcatenation)
+        {
+            var concatenatedNumbers = new List<BigInteger> { BigInteger.Parse(numbers[0].ToString() + numbers[1]) } ;
+            concatenatedNumbers.AddRange(numbers.Skip(2));
+            concatenatedNumbersPossible = CheckIfPossible(concatenatedNumbers.ToArray(), testValue, useConcatenation);
+        }
+        return CheckIfPossible(addedNumbers.ToArray(), testValue, useConcatenation) || 
+               CheckIfPossible(multipliedNumbers.ToArray(), testValue, useConcatenation) || 
+               concatenatedNumbersPossible;
     }
-    
-    public static void Part2(string[] input)
-    {
-        var sum = 0;
-        Console.WriteLine(sum);
-    }
+
 }
